@@ -18,6 +18,7 @@ const navItems = [
   { path: '/vehicles', label: '车辆' },
   { path: '/charging', label: '充电' },
   { path: '/routes', label: '路线' },
-  { path: '/orders', label: '订单' }
+  { path: '/orders', label: '订单' },
+  { path: '/alerts', label: '告警' }
 ];
 </script>

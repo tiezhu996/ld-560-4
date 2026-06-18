@@ -1,4 +1,4 @@
-import type { PileStatus, PileType } from '@/constants/enums';
+import type { AlertLevel, PileStatus, PileType } from '@/constants/enums';
 
 export interface ChargingPileLive {
   id: string;
@@ -16,8 +16,9 @@ export interface ChargingAlert {
   id: string;
   pileCode: string;
   message: string;
-  level: 'warning' | 'critical';
+  level: AlertLevel;
   time: string;
+  date: string;
   confirmed: boolean;
 }
 

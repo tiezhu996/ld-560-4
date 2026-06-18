@@ -1,6 +1,6 @@
 <template>
   <section class="alert-banner" v-if="alerts.length">
-    <div v-for="alert in alerts.slice(0, 4)" :key="alert.id" :class="['alert-item', alert.level]">
+    <div v-for="alert in alerts.slice(0, 4)" :key="alert.id" :class="['alert-item', alert.level.toLowerCase()]">
       <span>{{ alert.time }}</span>
       <b>{{ alert.pileCode }}</b>
       <p>{{ alert.message }}</p>

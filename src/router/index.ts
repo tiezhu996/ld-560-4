@@ -4,6 +4,7 @@ import VehicleMonitor from '@/pages/VehicleMonitor.vue';
 import ChargingMonitor from '@/pages/ChargingMonitor.vue';
 import RouteMonitor from '@/pages/RouteMonitor.vue';
 import OrderAnalysis from '@/pages/OrderAnalysis.vue';
+import AlertHistory from '@/pages/AlertHistory.vue';
 
 export default createRouter({
   history: createWebHistory(),
@@ -12,6 +13,7 @@ export default createRouter({
     { path: '/vehicles', component: VehicleMonitor },
     { path: '/charging', component: ChargingMonitor },
     { path: '/routes', component: RouteMonitor },
-    { path: '/orders', component: OrderAnalysis }
+    { path: '/orders', component: OrderAnalysis },
+    { path: '/alerts', component: AlertHistory }
   ]
 });

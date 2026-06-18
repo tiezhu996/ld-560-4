@@ -1,13 +1,20 @@
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
-import { PileStatus } from '@/constants/enums';
+import { AlertLevel, PileStatus } from '@/constants/enums';
 import type { ChargingAlert, ChargingPileLive } from '@/types/charging';
-import { createQueueTrend } from '@/mock/chargingMock';
+import { createHistoryAlerts, createQueueTrend } from '@/mock/chargingMock';
 import { recordAuditLog } from '@/utils/audit-log';
+
+export interface AlertFilter {
+  startDate: string;
+  endDate: string;
+  level: AlertLevel | '';
+}
 
 export const useChargingStore = defineStore('charging', () => {
   const piles = ref<ChargingPileLive[]>([]);
   const alerts = ref<ChargingAlert[]>([]);
+  const historyAlerts = ref<ChargingAlert[]>(createHistoryAlerts(180));
   const queueTrend = ref(createQueueTrend());
 
   const byStatus = computed(() => Object.values(PileStatus).map((status) => ({
@@ -25,12 +32,23 @@ export const useChargingStore = defineStore('charging', () => {
   function setCharging(payload: { piles: ChargingPileLive[]; alerts: ChargingAlert[] }) {
     piles.value = payload.piles;
     alerts.value = payload.alerts;
+    historyAlerts.value = [...payload.alerts, ...historyAlerts.value].slice(0, 500);
   }
 
   function confirmAlert(id: string) {
     alerts.value = alerts.value.map((item) => item.id === id ? { ...item, confirmed: true } : item);
+    historyAlerts.value = historyAlerts.value.map((item) => item.id === id ? { ...item, confirmed: true } : item);
     recordAuditLog('alert', `确认告警 ${id}`);
   }
 
-  return { piles, alerts, queueTrend, byStatus, utilization, todayRevenue, setCharging, confirmAlert };
+  function filterHistoryAlerts(filter: AlertFilter): ChargingAlert[] {
+    return historyAlerts.value.filter((item) => {
+      if (filter.startDate && item.date < filter.startDate) return false;
+      if (filter.endDate && item.date > filter.endDate) return false;
+      if (filter.level && item.level !== filter.level) return false;
+      return true;
+    });
+  }
+
+  return { piles, alerts, historyAlerts, queueTrend, byStatus, utilization, todayRevenue, setCharging, confirmAlert, filterHistoryAlerts };
 });

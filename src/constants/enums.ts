@@ -24,6 +24,11 @@ export enum PileStatus {
   MAINTENANCE = 'MAINTENANCE'
 }
 
+export enum AlertLevel {
+  WARNING = 'WARNING',
+  CRITICAL = 'CRITICAL'
+}
+
 export const vehicleTypeLabels: Record<VehicleType, string> = {
   [VehicleType.BUS]: '公交',
   [VehicleType.TAXI]: '出租',
@@ -48,4 +53,9 @@ export const pileStatusLabels: Record<PileStatus, string> = {
   [PileStatus.CHARGING]: '充电中',
   [PileStatus.FAULTY]: '故障',
   [PileStatus.MAINTENANCE]: '维护'
+};
+
+export const alertLevelLabels: Record<AlertLevel, string> = {
+  [AlertLevel.WARNING]: '警告',
+  [AlertLevel.CRITICAL]: '严重'
 };
